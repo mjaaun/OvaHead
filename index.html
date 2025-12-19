@@ -4,7 +4,66 @@
   <meta charset="UTF-8" />
   <title>OvaHead</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+      background-color: #f0f0f0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      width: 300px;
+      margin-bottom: 30px;
+    }
+
+    li {
+      background-color: white;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    #colorButton {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      background-color: #3498db; /* initial blue */
+    }
+  </style>
 </head>
 <body>
+  <h1>Signup List</h1>
+  <ul id="signupList">
+    <li>John Doe</li>
+    <li>Jane Smith</li>
+    <li>Alex Johnson</li>
+  </ul>
+
+  <button id="colorButton">Tap Me</button>
+
+  <script>
+    const button = document.getElementById('colorButton');
+
+    // Colors to toggle between
+    const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f'];
+    let colorIndex = 0;
+
+    button.addEventListener('click', () => {
+      // Move to the next color
+      colorIndex = (colorIndex + 1) % colors.length;
+      button.style.backgroundColor = colors[colorIndex];
+    });
+  </script>
 </body>
 </html>
