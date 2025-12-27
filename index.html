@@ -1,76 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>OvaHead Coming Soon</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #fff;
-    color: #111;
-    text-align: center;
-    padding: 60px 20px;
-  }
-  h1 {
-    font-size: 44px;
-    margin-bottom: 8px;
-  }
-  p {
-    font-size: 18px;
-    margin-bottom: 30px;
-    color: #444;
-  }
-  form {
-    display: inline-block;
-    margin-top: 20px;
-  }
-  input[type="email"] {
-    padding: 14px 16px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    width: 260px;
-  }
-  button {
-    padding: 14px 20px;
-    font-size: 16px;
-    background: #000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    margin-left: 8px;
-    cursor: pointer;
-  }
-  button:hover {
-    background: #222;
-  }
-  .social {
-    margin-top: 28px;
-  }
-  .social a {
-    margin: 0 8px;
-    color: #111;
-    text-decoration: none;
-    font-size: 20px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OvaHead | Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-black text-white font-sans selection:bg-indigo-500">
 
-  <h1>We’re Launching Soon</h1>
-  <p>Join the waitlist and be first to know about exclusive updates & launches.</p>
+    <div class="min-h-screen flex flex-col justify-center items-center px-6">
+        
+        <main class="max-w-2xl text-center space-y-8">
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter italic uppercase bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                OvaHead
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 font-light">
+                Something big is dropping. Don't let it go over your head. <br> 
+                Join the inner circle for early access.
+            </p>
 
-  <form action="https://YOUR_EMAIL_SERVICE_ENDPOINT" method="POST">
-    <input type="email" name="email" placeholder="Enter your email" required>
-    <button type="submit">Join Waitlist</button>
-  </form>
+            <form action="#" class="flex flex-col md:flex-row gap-3 w-full max-w-md mx-auto">
+                <input type="email" placeholder="Enter your email" required 
+                    class="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 focus:outline-none focus:border-indigo-500 transition-all text-white">
+                <button type="submit" 
+                    class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-indigo-500 hover:text-white transition-all transform hover:scale-105">
+                    GET ACCESS
+                </button>
+            </form>
+        </main>
 
-  <div class="social">
-    <a href="https://instagram.com/yourprofile" target="_blank">Instagram</a>
-    <a href="https://youtube.com/yourchannel" target="_blank">YouTube</a>
-    <!-- Add more profiles -->
-  </div>
+        <footer class="mt-20 flex gap-8 text-2xl">
+            <a href="https://instagram.com/yourhandle" class="hover:text-pink-500 transition-colors"><i class="fab fa-instagram"></i></a>
+            <a href="https://tiktok.com/@yourhandle" class="hover:text-white opacity-80 hover:opacity-100 transition-colors"><i class="fab fa-tiktok"></i></a>
+            <a href="https://twitter.com/yourhandle" class="hover:text-blue-400 transition-colors"><i class="fab fa-twitter"></i></a>
+        </footer>
+
+    </div>
 
 </body>
 </html>
