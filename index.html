@@ -6,6 +6,15 @@
     <title>OvaHead</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0CCSNFY195"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0CCSNFY195');
+    </script>
 </head>
 <body class="bg-black text-white font-sans selection:bg-gray-800">
 
@@ -40,13 +49,20 @@
     </div>
 
     <script>
+        // --- Handle Form Submission ---
         const form = document.getElementById("waitlist-form");
         const successMsg = document.getElementById("success-msg");
         const submitBtn = document.getElementById("submit-btn");
 
         async function handleSubmit(event) {
-            event.preventDefault(); // This is the line that stops the redirect
+            event.preventDefault();
             
+            // GA4 Event: Track button click
+            gtag('event', 'waitlist_submit_click', {
+                event_category: 'engagement',
+                event_label: 'Join the list button'
+            });
+
             submitBtn.disabled = true;
             submitBtn.innerText = "Joining...";
             
@@ -62,6 +78,11 @@
                 if (response.ok) {
                     form.classList.add("hidden");
                     successMsg.classList.remove("hidden");
+                    // GA4 Event: Track successful form submission
+                    gtag('event', 'waitlist_submit_success', {
+                        event_category: 'conversion',
+                        event_label: 'Join the list success'
+                    });
                 } else {
                     alert("Oops! There was a problem. Please try again.");
                     submitBtn.disabled = false;
@@ -75,10 +96,21 @@
         }
 
         form.addEventListener("submit", handleSubmit);
+
+        // --- Track all outbound links ---
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.addEventListener('click', function() {
+                gtag('event', 'outbound_click', {
+                    event_category: 'engagement',
+                    event_label: link.href
+                });
+            });
+        });
     </script>
 
 </body>
 </html>
+
 
 
 
