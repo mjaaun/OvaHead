@@ -16,20 +16,18 @@
                 OvaHead
             </h1>
             
-            <div id="form-container">
-                <form id="waitlist-form" action="https://formspree.io/f/xojvdvnw" method="POST" class="flex flex-col md:flex-row gap-3 w-full max-w-md mx-auto">
-                    <input type="email" name="email" placeholder="Email address" required 
+            <div id="form-wrapper" class="w-full max-w-md mx-auto">
+                <form id="waitlist-form" action="https://formspree.io/f/xojvdvnw" method="POST" class="flex flex-col md:flex-row gap-3">
+                    <input type="email" name="email" id="email-input" placeholder="Email address" required 
                         class="flex-1 px-6 py-4 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:border-white transition-all text-white outline-none">
                     <button type="submit" id="submit-btn"
                         class="px-8 py-4 bg-white text-black font-bold rounded-md hover:bg-gray-200 transition-all uppercase tracking-widest text-sm">
                         Join the list
                     </button>
                 </form>
-                <div id="success-msg" class="hidden text-white font-bold uppercase tracking-widest animate-pulse">
+
+                <div id="success-msg" class="hidden py-4 text-white font-bold uppercase tracking-widest animate-pulse">
                     You're on the list.
-                </div>
-                <div id="error-msg" class="hidden text-red-500 text-sm mt-4">
-                    Something went wrong. Please try again.
                 </div>
             </div>
         </main>
@@ -39,46 +37,48 @@
             <a href="https://tiktok.com/@ovahead" target="_blank" class="hover:opacity-100 transition-opacity"><i class="fab fa-tiktok"></i></a>
             <a href="https://twitter.com/ovaheadx" target="_blank" class="hover:opacity-100 transition-opacity"><i class="fab fa-twitter"></i></a>
         </footer>
-
     </div>
 
     <script>
         const form = document.getElementById("waitlist-form");
         const successMsg = document.getElementById("success-msg");
-        const errorMsg = document.getElementById("error-msg");
         const submitBtn = document.getElementById("submit-btn");
 
-        form.addEventListener("submit", async (event) => {
-            event.preventDefault(); // Prevents the redirect
+        async function handleSubmit(event) {
+            event.preventDefault(); // This is the line that stops the redirect
+            
             submitBtn.disabled = true;
             submitBtn.innerText = "Joining...";
-
+            
             const data = new FormData(event.target);
             
-            try {
-                const response = await fetch(event.target.action, {
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
                 if (response.ok) {
                     form.classList.add("hidden");
                     successMsg.classList.remove("hidden");
                 } else {
-                    throw new Error();
+                    alert("Oops! There was a problem. Please try again.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Join the list";
                 }
-            } catch (error) {
+            }).catch(error => {
+                alert("Oops! There was a problem. Please try again.");
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Join the list";
-                errorMsg.classList.remove("hidden");
-            }
-        });
+            });
+        }
+
+        form.addEventListener("submit", handleSubmit);
     </script>
 
 </body>
 </html>
+
 
 
