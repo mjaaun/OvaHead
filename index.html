@@ -106,11 +106,19 @@
                 });
             });
         });
+
+        // --- Auto-track all future buttons for testing ---
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                console.log("Test GA4 event fired for button:", btn.innerText);
+                gtag('event', 'button_click_test', {
+                    event_category: 'engagement',
+                    event_label: btn.innerText || btn.id || 'unknown_button'
+                });
+            });
+        });
     </script>
 
 </body>
 </html>
-
-
-
 
