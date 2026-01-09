@@ -21,16 +21,53 @@
     <div class="min-h-screen flex flex-col justify-center items-center px-6">
         
         <main class="max-w-2xl text-center space-y-12">
+            <!-- Logo - closer match to your original shape -->
+            <div class="flex justify-center mb-10 md:mb-16">
+                <svg 
+                    width="200" 
+                    height="220" 
+                    viewBox="0 0 200 220" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-44 h-48 md:w-64 md:h-72"
+                >
+                    <!-- Main figure (white) -->
+                    <path 
+                        d="M38 95 
+                           L18 35 
+                           Q5 15 35 5 
+                           L165 5 
+                           Q195 15 182 35 
+                           L162 95 
+                           L162 145 
+                           Q162 185 100 185 
+                           Q38 185 38 145 
+                           Z" 
+                        fill="#ffffff"
+                    />
+                    <!-- Head (black circle) -->
+                    <circle cx="100" cy="95" r="30" fill="#000000"/>
+                </svg>
+            </div>
+
             <h1 class="text-7xl md:text-9xl font-black tracking-tighter uppercase text-white select-none">
                 OvaHead
             </h1>
             
             <div id="form-wrapper" class="w-full max-w-md mx-auto">
                 <form id="waitlist-form" action="https://formspree.io/f/xojvdvnw" method="POST" class="flex flex-col md:flex-row gap-3">
-                    <input type="email" name="email" id="email-input" placeholder="Email address" required 
-                        class="flex-1 px-6 py-4 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:border-white transition-all text-white outline-none">
-                    <button type="submit" id="submit-btn"
-                        class="px-8 py-4 bg-white text-black font-bold rounded-md hover:bg-gray-200 transition-all uppercase tracking-widest text-sm">
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="email-input" 
+                        placeholder="Email address" 
+                        required 
+                        class="flex-1 px-6 py-4 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:border-white transition-all text-white outline-none"
+                    >
+                    <button 
+                        type="submit" 
+                        id="submit-btn"
+                        class="px-8 py-4 bg-white text-black font-bold rounded-md hover:bg-gray-200 transition-all uppercase tracking-widest text-sm"
+                    >
                         Join the list
                     </button>
                 </form>
@@ -41,24 +78,23 @@
             </div>
         </main>
 
-     <footer class="mt-24 flex flex-col items-center gap-4 text-white opacity-50">
-    <div class="flex gap-6 text-xl">
-        <a href="https://instagram.com/ovaheadx" target="_blank" class="hover:opacity-100 transition-opacity">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://tiktok.com/@ovahead" target="_blank" class="hover:opacity-100 transition-opacity">
-            <i class="fab fa-tiktok"></i>
-        </a>
-        <a href="https://twitter.com/ovaheadx" target="_blank" class="hover:opacity-100 transition-opacity">
-            <i class="fab fa-twitter"></i>
-        </a>
-        <a href="privacy.html" target="_blank" class="hover:opacity-100 transition-opacity text-base underline">
-            Privacy Policy
-        </a>
-    </div>
-    <p class="text-sm mt-2">&copy; 2026 OvaHead</p>
-</footer>
-
+        <footer class="mt-24 flex flex-col items-center gap-4 text-white opacity-50">
+            <div class="flex gap-6 text-xl">
+                <a href="https://instagram.com/ovaheadx" target="_blank" class="hover:opacity-100 transition-opacity">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://tiktok.com/@ovahead" target="_blank" class="hover:opacity-100 transition-opacity">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://twitter.com/ovaheadx" target="_blank" class="hover:opacity-100 transition-opacity">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="privacy.html" target="_blank" class="hover:opacity-100 transition-opacity text-base underline">
+                    Privacy Policy
+                </a>
+            </div>
+            <p class="text-sm mt-2">© 2026 OvaHead</p>
+        </footer>
 
     </div>
 
