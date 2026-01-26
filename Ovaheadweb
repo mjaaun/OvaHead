@@ -1,0 +1,8 @@
+<script>start("/Users/jaaunmorrow/ovaheadweb/Ovaheadweb/");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow("api","api",1,64,"64 B",1769459264,"1/26/26, 3:27:44 PM");</script>
+<script>addRow("assets","assets",1,128,"128 B",1769458968,"1/26/26, 3:22:48 PM");</script>
+<script>addRow("functions","functions",1,96,"96 B",1769460672,"1/26/26, 3:51:12 PM");</script>
+<script>addRow("index.html","index.html",0,18747,"18.3 kB",1769458974,"1/26/26, 3:22:54 PM");</script>
+<script>addRow("privacy.html","privacy.html",0,3255,"3.2 kB",1769458976,"1/26/26, 3:22:56 PM");</script>
+<script>addRow("README.md","README.md",0,1020,"1020 B",1769459098,"1/26/26, 3:24:58 PM");</script>

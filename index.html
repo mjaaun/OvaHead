@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OvaHead</title>
+
+    <!-- Favicon for light mode -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./assets/dark-logo.svg"
+      media="(prefers-color-scheme: light)"
+    >
+
+    <!-- Favicon for dark mode -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./assets/white-logo-official.svg"
+      media="(prefers-color-scheme: dark)"
+    >
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Lightweight micro-interactions (no deps) */
+        .intro {
+            opacity: 0;
+            transform: translateY(14px) scale(0.985);
+            filter: blur(10px);
+            transition:
+                opacity 900ms cubic-bezier(0.2, 0.9, 0.2, 1),
+                transform 900ms cubic-bezier(0.2, 0.9, 0.2, 1),
+                filter 1100ms cubic-bezier(0.2, 0.9, 0.2, 1);
+            will-change: opacity, transform, filter;
+        }
+        .intro.is-in {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .intro { transition: none; transform: none; filter: none; opacity: 1; }
+        }
+
+        /* Rolling number (NumberFlow-inspired) */
+        .views-number {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.02em;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+        .views-digit {
+            position: relative;
+            display: inline-block;
+            vertical-align: baseline;
+            width: 0.72em;
+            height: 1em;
+            overflow: hidden;
+        }
+        .views-reel {
+            position: absolute;
+            inset: 0;
+            display: block;
+            transform: translateY(0);
+            will-change: transform;
+            width: 100%;
+        }
+        .views-char {
+            display: block;
+            height: 1em;
+            line-height: 1;
+            text-align: center;
+        }
+        .views-sep {
+            display: inline-block;
+            width: 0.28em;
+            text-align: center;
+            opacity: 0.65;
+        }
+        .focus-glow:focus {
+            box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08);
+        }
+
+        /* Minimal tooltip */
+        .tooltip-wrap { position: relative; }
+        .tooltip {
+            position: absolute;
+            left: 50%;
+            top: calc(100% + 10px);
+            transform: translateX(-50%) translateY(6px) scale(0.98);
+            opacity: 0;
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: rgba(255, 255, 255, 0.82);
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            line-height: 1.15;
+            white-space: nowrap;
+            transition: opacity 180ms ease, transform 180ms ease;
+            z-index: 50;
+        }
+        .tooltip::before {
+            content: "";
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            transform: translateX(-50%) rotate(45deg);
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 1px solid rgba(255, 255, 255, 0.14);
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+        }
+        .tooltip-wrap:hover .tooltip,
+        .tooltip-wrap:focus-within .tooltip,
+        .tooltip-wrap[data-open="true"] .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .tooltip { transition: none; }
+        }
+
+        /* Tailwind doesn't ship bg-white/7 */
+        .bg-white\/7 { background-color: rgba(255, 255, 255, 0.07); }
+    </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0CCSNFY195"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-0CCSNFY195');
+    </script>
+</head>
+
+<body class="bg-black text-white font-sans selection:bg-gray-800">
+
+<div class="min-h-screen flex flex-col justify-center items-center px-6">
+
+    <main class="max-w-2xl text-center space-y-12">
+
+        <div
+          class="intro mx-auto inline-flex flex-row flex-nowrap items-center justify-center gap-5 select-none"
+          data-intro
+          data-delay="0"
+        >
+            <!-- Logo sits to the LEFT of the wordmark -->
+            <img
+              src="./assets/white-logo-official.svg"
+              alt="OvaHead Logo"
+              class="shrink-0 h-[3.0rem] md:h-[4.3rem] lg:h-[5.2rem] w-auto opacity-95"
+              draggable="false"
+            />
+
+            <h1 class="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-none">
+                OvaHead
+            </h1>
+        </div>
+
+        <div id="form-wrapper" class="w-full max-w-md mx-auto">
+            <form
+                id="waitlist-form"
+                action="https://formspree.io/f/xojvdvnw"
+                method="POST"
+                class="intro flex flex-col md:flex-row gap-3"
+                data-intro
+                data-delay="240"
+            >
+                <input
+                    type="email"
+                    name="email"
+                    id="email-input"
+                    placeholder="Email address"
+                    required
+                    class="focus-glow flex-1 px-6 py-4 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:border-white transition-all text-white placeholder:text-white/40"
+                >
+                <button
+                    type="submit"
+                    id="submit-btn"
+                    class="px-8 py-4 bg-white text-black font-bold rounded-md hover:bg-gray-200 transition-all uppercase tracking-widest text-sm active:scale-[0.98] hover:-translate-y-[1px] disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    Join the list
+                </button>
+            </form>
+
+            <!-- Signups: subtle pill directly UNDER the input + button -->
+            <div
+              class="intro mt-5 w-full flex justify-center"
+              data-intro
+              data-delay="300"
+              aria-label="Waitlist signups"
+            >
+                <div class="tooltip-wrap inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/7 px-4 py-2 text-white/70">
+                    <button
+                      id="signups-info-btn"
+                      type="button"
+                      class="inline-flex items-center justify-center rounded-full focus:outline-none focus-glow"
+                      aria-describedby="signups-tooltip"
+                      aria-label="About waitlist signups"
+                    >
+                        <i class="fa-solid fa-eye text-[12px] text-white/55" aria-hidden="true"></i>
+                    </button>
+                    <span
+                      data-signups-number
+                      class="views-number text-base font-black tracking-tighter text-white/80 leading-none"
+                      aria-live="polite"
+                    ></span>
+                    <div id="signups-tooltip" role="tooltip" class="tooltip">
+                        Waitlist signups so far.
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="success-msg"
+                class="hidden py-4 text-white font-bold uppercase tracking-widest animate-pulse"
+            >
+                You're on the list.
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="intro mt-24 flex flex-col items-center gap-4 text-white opacity-50" data-intro data-delay="340">
+        <div class="flex gap-6 text-xl">
+            <a href="https://instagram.com/ovaheadx" target="_blank" class="hover:opacity-100 transition-opacity">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://tiktok.com/@ovahead" target="_blank" class="hover:opacity-100 transition-opacity">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://twitter.com/ovaheadx" target="_blank" class="hover:opacity-100 transition-opacity">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="privacy.html" target="_blank" class="hover:opacity-100 transition-opacity text-base underline">
+                Privacy Policy
+            </a>
+        </div>
+        <p class="text-sm mt-2">&copy; 2026 OvaHead</p>
+    </footer>
+
+</div>
+
+<script>
+    const form = document.getElementById("waitlist-form");
+    const successMsg = document.getElementById("success-msg");
+    const submitBtn = document.getElementById("submit-btn");
+    const signupsEls = Array.from(document.querySelectorAll("[data-signups-number]"));
+    const signupsInfoBtn = document.getElementById("signups-info-btn");
+
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function runIntroAnimations() {
+        if (prefersReducedMotion) return;
+        document.querySelectorAll("[data-intro]").forEach((el) => {
+            const delay = Number(el.getAttribute("data-delay") || 0);
+            window.setTimeout(() => el.classList.add("is-in"), delay);
+        });
+    }
+
+    function formatCount(value) {
+        try {
+            return new Intl.NumberFormat("en-US").format(value);
+        } catch {
+            return String(value);
+        }
+    }
+
+    function buildRollingNumber(container, formatted) {
+        container.innerHTML = "";
+
+        const frag = document.createDocumentFragment();
+        for (const ch of formatted) {
+            if (/\d/.test(ch)) {
+                const digit = document.createElement("span");
+                digit.className = "views-digit";
+
+                const reel = document.createElement("span");
+                reel.className = "views-reel";
+
+                // 0-9 repeated (lets us add extra spins cleanly)
+                // Must be long enough to support many full spins.
+                for (let i = 0; i < 140; i++) {
+                    const s = document.createElement("span");
+                    s.className = "views-char";
+                    s.textContent = String(i % 10);
+                    reel.appendChild(s);
+                }
+
+                digit.appendChild(reel);
+                frag.appendChild(digit);
+            } else {
+                const sep = document.createElement("span");
+                sep.className = "views-sep";
+                sep.textContent = ch;
+                frag.appendChild(sep);
+            }
+        }
+        container.appendChild(frag);
+    }
+
+    function animateRollingNumber(container, targetValue) {
+        const formatted = formatCount(targetValue);
+        buildRollingNumber(container, formatted);
+
+        // Measure after DOM insertion
+        const charEl = container.querySelector(".views-char");
+        const measuredCharHeight = charEl?.getBoundingClientRect().height || 0;
+        const charHeight = measuredCharHeight ? Math.round(measuredCharHeight) : 0;
+
+        // Lock heights to whole pixels to avoid "peeking" adjacent digits
+        if (charHeight) {
+            container.querySelectorAll(".views-digit").forEach((d) => {
+                d.style.height = `${charHeight}px`;
+            });
+            container.querySelectorAll(".views-char").forEach((c) => {
+                c.style.height = `${charHeight}px`;
+                c.style.lineHeight = `${charHeight}px`;
+            });
+        }
+
+        if (!charHeight || prefersReducedMotion) {
+            // Reduced motion (or failed measurement): just show final digits
+            container.querySelectorAll(".views-reel").forEach((reel) => (reel.style.transform = "translateY(0px)"));
+            // Snap reels to correct digits by setting their transform directly
+            let digitIdx = 0;
+            for (const ch of formatted) {
+                if (!/\d/.test(ch)) continue;
+                const d = Number(ch);
+                const reel = container.querySelectorAll(".views-reel")[digitIdx++];
+                reel.style.transform = `translateY(${-d * (charHeight || 0)}px)`;
+            }
+            return;
+        }
+
+        // Animate each digit with slightly different timing for organic feel.
+        const reels = Array.from(container.querySelectorAll(".views-reel"));
+        let digitIndex = 0;
+        for (const ch of formatted) {
+            if (!/\d/.test(ch)) continue;
+            const d = Number(ch);
+            const reel = reels[digitIndex];
+            const extraSpins = 8 + (digitIndex % 4); // 8-11 full spins
+            const startDigit = Math.floor(Math.random() * 10);
+            const startY = -(startDigit * charHeight);
+            const endY = -((extraSpins * 10 + d) * charHeight);
+
+            reel.style.transform = `translateY(${startY}px)`;
+
+            const duration = 1100 + digitIndex * 110 + Math.floor(Math.random() * 120);
+            const delay = 40 + digitIndex * 45;
+
+            // WAAPI when available; otherwise CSS transition fallback.
+            if (typeof reel.animate === "function") {
+                reel.animate(
+                    [
+                        { transform: `translateY(${startY}px)` },
+                        { transform: `translateY(${endY}px)` }
+                    ],
+                    {
+                        duration,
+                        delay,
+                        easing: "cubic-bezier(0.12, 0.9, 0.12, 1)",
+                        fill: "forwards"
+                    }
+                );
+            } else {
+                reel.style.transition = `transform ${duration}ms cubic-bezier(0.12, 0.9, 0.12, 1)`;
+                window.setTimeout(() => {
+                    reel.style.transform = `translateY(${endY}px)`;
+                }, delay);
+            }
+
+            digitIndex += 1;
+        }
+    }
+
+    async function fetchTotalSignups() {
+        // Your own Cloudflare Pages Function (same-origin)
+        const res = await fetch("/api/signups", { cache: "no-store" });
+        if (!res.ok) throw new Error("signups_fetch_failed");
+        const json = await res.json();
+        if (typeof json?.value !== "number") throw new Error("signups_bad_payload");
+        return json.value;
+    }
+
+    async function incrementSignups() {
+        const res = await fetch("/api/signups", { method: "POST", cache: "no-store" });
+        if (!res.ok) throw new Error("signups_inc_failed");
+        const json = await res.json();
+        if (typeof json?.value !== "number") throw new Error("signups_bad_payload");
+        return json.value;
+    }
+
+    async function initSignupsCounter() {
+        if (!signupsEls.length) return;
+
+        // Placeholder during fetch (still animated)
+        // Keep it subtle (no giant fake count).
+        signupsEls.forEach((el) => animateRollingNumber(el, 0));
+
+        try {
+            const signups = await fetchTotalSignups();
+            signupsEls.forEach((el) => animateRollingNumber(el, signups));
+        } catch (e) {
+            // If the fetch is blocked/unavailable, keep whatever is currently rendered.
+            // (Don't replace the number with a dash after the animation finishes.)
+        }
+    }
+
+    function initTooltip() {
+        if (!signupsInfoBtn) return;
+        const wrap = signupsInfoBtn.closest(".tooltip-wrap");
+        if (!wrap) return;
+
+        let closeTimer = null;
+
+        function open() {
+            wrap.setAttribute("data-open", "true");
+            if (closeTimer) window.clearTimeout(closeTimer);
+            closeTimer = window.setTimeout(() => wrap.removeAttribute("data-open"), 2200);
+        }
+
+        function close() {
+            if (closeTimer) window.clearTimeout(closeTimer);
+            wrap.removeAttribute("data-open");
+        }
+
+        signupsInfoBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (wrap.getAttribute("data-open") === "true") close();
+            else open();
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!wrap.contains(e.target)) close();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") close();
+        });
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        gtag('event', 'waitlist_submit_click', {
+            event_category: 'engagement',
+            event_label: 'Join the list button'
+        });
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Joining...";
+
+        const data = new FormData(event.target);
+
+        fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                form.classList.add("hidden");
+                successMsg.classList.remove("hidden");
+
+                gtag('event', 'waitlist_submit_success', {
+                    event_category: 'conversion',
+                    event_label: 'Join the list success'
+                });
+
+                // Increment waitlist signups counter (best-effort)
+                incrementSignups()
+                    .then((n) => signupsEls.forEach((el) => animateRollingNumber(el, n)))
+                    .catch(() => {});
+            } else {
+                throw new Error();
+            }
+        }).catch(() => {
+            alert("Oops! There was a problem. Please try again.");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Join the list";
+        });
+    }
+
+    form.addEventListener("submit", handleSubmit);
+
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+        link.addEventListener('click', () => {
+            gtag('event', 'outbound_click', {
+                event_category: 'engagement',
+                event_label: link.href
+            });
+        });
+    });
+
+    // Kick off micro-interactions on load
+    runIntroAnimations();
+    initSignupsCounter();
+    initTooltip();
+</script>
+
+</body>
+</html>
+
